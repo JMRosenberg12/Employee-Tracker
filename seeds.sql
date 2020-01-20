@@ -20,7 +20,7 @@ USE employeetracker_DB;
 SELECT * FROM role;
 
 
-USE employeeTrack_DB;
+USE employeetracker_DB;
 INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ('Jacob', 'Rosenberg', '1', '1');
 INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ('Eric', 'Idle', '2', '1');
 INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ('Ringo', 'Starr', '3', '3');
