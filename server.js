@@ -1,205 +1,188 @@
 var mysql = require("mysql");
 var inquirer = require("inquirer");
-// var table = require("console.table");
+var cTable = require("console.table");
 
 var connection = mysql.createConnection({
-    host: "localhost",
-    port: 3306,
-    user: "root",
-    password: "Trainstogo1@",
-    database: "employeetracker_DB"
+  host: "localhost",
+
+  // Your port; if not 3306
+  port: 3306,
+
+  // Your username
+  user: "root",
+
+  // Your password
+  password: "Trainstogo1@",
+  database: "employeetracker_DB"
 });
 
 connection.connect(function (err) {
-    if (err) throw err;
-console.log("Connected to PORT 3306")
-    promptUser();
+  if (err) throw err;
+  runSearch();
 });
 
+function runSearch() {
+  inquirer
+    .prompt({
+      name: "action",
+      type: "list",
+      message: "What would you like to do?",
+      choices: [
+        "View ALL Employees",
+        "View ALL Employees By Department",
+        "View ALL Roles",
+        // BONUS
+        // "View ALL Employees By Manager",
+        "Add Employee",
+        "Remove Employee",
+        "Update Employee Role",
+        // BONUS
+        // "Update Employee Manager",
+        "Exit"
+      ]
+    })
+    .then(function (answer) {
+      switch (answer.action) {
+        case "View ALL Employees":
+          viewAllSearch();
+          break;
 
-function promptUser() {
-    inquirer
-    .prompt([
-        {
-            type: 'list',
-            name: "request",
-            message: "What would you like to do?",
-            choices: [
-                'View All Employees',
-                'View All Employees By Department',
-                'View All Employees By Manager',
-                'Add Employee',
-                'Remove Employee',
-                'Update Employee Role',
-                'Update Employee Manager',
-                'View All Roles',
-                'Add Role',
-                'Remove Role',
-                'View All Departments',
-            ],           
-        }
-    ])
-    .then(action => {
-        switch (action.request) {
-        case "View All Employees":
-            sendEmployees(); // completed
-            break;
-        
-        case "View All Employees By Department":
-            sendEmployeebyDept();
-            break;
-        
-        case "View All Employees By Manager":
-            sendEmployeebyManager();
-            break;
-        
+        case "View ALL Employees By Department":
+          departmentSearch();
+          break;
+
+        case "View ALL Roles":
+          roleSearch();
+          break;
+
+        // BONUS
+
+        // case "View ALL Employees By Manager":
+        //   managerSearch();
+        //   break;
+
         case "Add Employee":
-            addEmployee(); // completed
-            break;
+          addEmployee();
+          break;
 
         case "Remove Employee":
-            removeEmployee();
-            break;
+          removeEmployee();
+          break;
 
         case "Update Employee Role":
-            updateEmployeeRole();
-            break;
+          updateEmployee();
+          break;
 
-        case "Update Employee Manager":
-            updateEmployeeManager();
-            break;
+        // BONUS
 
-        case "View All Roles":
-            sendRoles(); // completed
-            break;
-        
-        case "Add Role'":
-            addRole();
-            break;
+        // case "Update Employee Manager":
+        //   updateManager();
+        //   break;
 
-        case "Remove Role":
-            removeRole();
-            break;
-                
-        case "View All Departments":
-            sendDepartments(); // completed
-            break;
-        }
-    }) 
-}
-
-function newRequest() {
-    inquirer
-        .prompt([
-            {
-                type: 'confirm',
-                name: 'newReq',
-                message: "Do you have another request?",
-            }
-        ])
-        .then(data => {
-            switch (data.newReq) {
-                case true:
-                    promptUser()
-                    break;
-                case false:
-                    console.log("Wish you a nice day");
-                    connection.end();
-                    break;
-            }
-        })
-}
-
-function sendEmployees(){
-    var query = `SELECT employee.id, employee.first_name, employee.last_name, role.title, role.salary, department.Name FROM employee LEFT JOIN role ON role_id = role.ID LEFT JOIN department ON department_id = department.ID`
-    
-
-    connection.query(query, function (err, results) {
-        if(err) throw(err);
-        console.table(results);
-        newRequest()
-    });
-}
-
-function sendEmployeebyDept(){
-    var query = ``
-
-    connection.query(query, function (err, results) {
-        if(err) throw(err);
-        console.table(results);
-        newRequest()
-    });
-}
-
-function sendEmployeebyManager(){
-
-}
-
-function addEmployee(){
-    inquirer
-    .prompt([
-      {
-        name: "firstName",
-        type: "input",
-        message: "Enter First Name"
-      },
-      {
-        name: "lastName",
-        type: "input",
-        message: "Enter Last Name"
+        case "Exit":
+          connection.end();
+          break;
       }
-    ])
-    .then(answer => {
-      connection.query(`INSERT INTO employee SET ? `,
-        {
-          first_name: answer.firstName,
-          last_name: answer.lastName,
-        },
-        function (err) {
-          if (err) throw err;
-          console.log("Employee has been added");
-          newRequest();
-        }
-      )
-    })
-}
-
-function removeEmployee(){
-
-}
-
-function updateEmployeeRole(){
-
-}
-
-function updateEmployeeManager(){
-
-}
-
-function sendRoles(){
-    var query = `SELECT * FROM employeeTrack_DB.role`
-
-    connection.query(query, function (err, results) {
-        if (err) throw err;
-        console.table(results);
-        newRequest();
-    });  
-}
-
-function addRole(){
-
-}
-
-function removeRole(){
-    
-}
-
-function sendDepartments() {
-    var query = `SELECT * FROM employeeTrack_DB.department`
-
-    connection.query(query, function (err, results) {
-        if (err) throw err;
-        console.table(results);
-        newRequest();
     });
 }
+
+function viewAllSearch() {
+  var query = 'SELECT e.id, e.first_name, e.last_name, r.title, dp.name AS department, r.salary, mng.first_name AS manager FROM employee AS e ';
+  query += 'LEFT JOIN employee AS mng ON e.manager_id = mng.id ';
+  query += 'INNER JOIN role AS r ON e.role_id = r.id ';
+  query += 'INNER JOIN department AS dp ON r.department_id = dp.id ';
+  query += 'ORDER BY e.id';
+  connection.query(query, function (err, res) {
+    if (err) throw err;
+    console.table(res);
+    runSearch();
+  });
+};
+
+function departmentSearch() {
+  var query = "SELECT * FROM department";
+  connection.query(query, function (err, res) {
+    console.log(res);
+    if (err) throw err;
+    inquirer
+      .prompt({
+        name: "dp",
+        type: "list",
+        message: "Select Department to view?",
+        choices: res
+      })
+      .then(function (answer) {
+        var query = 'SELECT e.id, e.first_name, e.last_name, r.title, dp.name AS department, r.salary, mng.first_name AS manager FROM employee AS e ';
+        query += 'LEFT JOIN employee AS mng ON e.manager_id = mng.id ';
+        query += 'INNER JOIN role AS r ON e.role_id = r.id ';
+        query += 'INNER JOIN department AS dp ON r.department_id = dp.id ';
+        query += 'WHERE ? ORDER BY e.id';
+        connection.query(query, { name: answer.dp }, function (err, res) {
+          if (err) throw err;
+          console.table(res);
+          runSearch();
+        });
+      });
+  })
+};
+
+function roleSearch() {
+  var query = "SELECT title, salary FROM role";
+  connection.query(query, function (err, res) {
+    if (err) throw err;
+    console.table(res);
+    runSearch();
+  });
+};
+
+function addEmployee() {
+  var query = "SELECT title FROM role";
+  connection.query(query, function (err, res) {
+    console.log(res);
+    if (err) throw err;
+    inquirer
+      .prompt([{
+        name: "addFirstName",
+        type: "input",
+        message: "New Employee's First Name?"
+      },{
+          name: "addLastName",
+          type: "input",
+          message: "New Employee's Last Name?"
+        },{
+          name: "newEplRole",
+          type: "list",
+          message: "New Employee's Title?",
+          choices: res
+        }])
+  })
+}
+
+// COME BACK TO IF TIME ALLOWS
+// BONUS
+
+// function managerSearch() {
+//   var query = "SELECT first_name FROM employee";
+//   connection.query( query, function(err, res){
+//     if (err) throw err;
+//     inquirer
+//     .prompt({
+//       name: "manager",
+//       type: "list",
+//       message: "Select Manager to view Employee's they Manage?",
+//       choices: res
+//     })
+//     .then(function(answer){
+//     var query = 'SELECT e.id, e.first_name, e.last_name, r.title, dp.name AS department, r.salary, mng.first_name AS manager FROM employee AS e ';
+//     query += 'LEFT JOIN employee AS mng ON e.manager_id = mng.id ';
+//     query += 'INNER JOIN role AS r ON e.role_id = r.id ';
+//     query += 'INNER JOIN department AS dp ON r.department_id = dp.id ';
+//     query += 'WHERE ? ORDER BY e.id';
+//     connection.query(query, {name: answer.manager}, function (err, res) {
+//       if (err) throw err;
+//       console.table(res);
+//       runSearch();
+//     });
+//     });
+//   })
+// };
