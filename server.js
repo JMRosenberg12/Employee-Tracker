@@ -177,7 +177,7 @@ function updateEmployeeManager(){
 }
 
 function sendRoles(){
-    var query = `SELECT * FROM employeeTrack_DB.role`
+    var query = `SELECT * FROM employeetracker_DB.role`
 
     connection.query(query, function (err, results) {
         if (err) throw err;
@@ -195,7 +195,7 @@ function removeRole(){
 }
 
 function sendDepartments() {
-    var query = `SELECT * FROM employeeTrack_DB.department`
+    var query = `SELECT * FROM employeetracker_DB.department`
 
     connection.query(query, function (err, results) {
         if (err) throw err;
