@@ -25,21 +25,25 @@ const connection = mysql.createConnection({
 
 function starter() {
     inquirer
-        .prompt({
-            name: "action",
-            type: "list",
-            message: "What would you like to do?",
-            choices: [
-                "View departments",
-                "view employees",
-                "view roles",
-                "Add a department",
-                "Add an employee",
-                "Add a role",
-                "Update an employee's role",
-                "Exit"
-            ]
-        })
+        .prompt([
+            
+            {
+                name: "action",
+                type: "list",
+                message: "What would you like to do?",
+                choices: [
+                    "View departments",
+                    "view employees",
+                    "view roles",
+                    "Add a department",
+                    "Add an employee",
+                    "Add a role",
+                    "Update an employee's role",
+                    "Exit" 
+                ]
+            }
+        ])
+        
         .then(function(answer) {
             switch (answer.action) {
             case "View departments":
