@@ -156,16 +156,34 @@ function addDepartment(){
     connection.query(query, function(err, res) {
         if (err) throw err;
         console.table(res);
-        starter();
+        starter(); 
          
-    })
-         
+    });
+        }
 
+
+
+function addRole(){
+    inquirer
+    .prompt([
+        
+        {
+    
+            message: "What is your name?",
+            name: "departmentname"
+        }
+        
+        
+    ])
+    .then(function(answers){
+        console.log(answers)
+   
+    var query = "SELECT * FROM employee";
+connection.query(query, function(err, res) {
+    if (err) throw err;
+    console.table(res);
+    starter(); 
 };
-
-
-
-function addRole(){};
 
 //__________________________________________________________
 
