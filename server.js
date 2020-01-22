@@ -114,6 +114,20 @@ function viewEmployees(){
 };
 
 function addEmployee(){
+     inquirer
+        .prompt([
+            
+            {
+        
+                message: "What is your name?",
+                name: "departmentname"
+            }
+            
+            
+        ])
+        .then(function(answers){
+            console.log(answers)
+        })
     var query = "SELECT * FROM employee";
     connection.query(query, function(err, res) {
         if (err) throw err;
@@ -137,9 +151,14 @@ function addDepartment(){
         ])
         .then(function(answers){
             console.log(answers)
-        })
+       
+        var query = "SELECT * FROM employee";
+    connection.query(query, function(err, res) {
+        if (err) throw err;
+        console.table(res);
+        starter();
          
-
+    })
          
 
 };
