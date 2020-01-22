@@ -151,7 +151,7 @@ function addDepartment(){
         ])
         .then(function(answers){
             console.log(answers)
-       
+        })
         var query = "SELECT * FROM employee";
     connection.query(query, function(err, res) {
         if (err) throw err;
@@ -159,7 +159,8 @@ function addDepartment(){
         starter(); 
          
     });
-        }
+}
+        
 
 
 
@@ -177,13 +178,16 @@ function addRole(){
     ])
     .then(function(answers){
         console.log(answers)
+    })
    
     var query = "SELECT * FROM employee";
 connection.query(query, function(err, res) {
     if (err) throw err;
     console.table(res);
     starter(); 
-};
+});
+}
+    
 
 //__________________________________________________________
 
