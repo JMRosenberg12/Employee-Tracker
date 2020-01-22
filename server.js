@@ -119,9 +119,14 @@ function addEmployee(){
             
             {
         
-                message: "What is your name?",
-                name: "employeename"
+                message: "What is your first name?",
+                name: "employeefirstname"
+            },
+            {
+                message: "What is your last name?",
+                name:"employeelastname"
             }
+
             
             
         ])
@@ -148,6 +153,7 @@ function addDepartment(){
             }
             
             
+            
         ])
         .then(function(answers){
             console.log(answers)
@@ -172,7 +178,8 @@ function addRole(){
     
             message: "What is your role?",
             name: "rolename"
-        }
+        },
+        
         
         
     ])
