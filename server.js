@@ -143,7 +143,7 @@ function addDepartment(){
             
             {
         
-                message: "What is your name?",
+                message: "What is your department?",
                 name: "departmentname"
             }
             
@@ -170,7 +170,7 @@ function addRole(){
         
         {
     
-            message: "What is your name?",
+            message: "What is your role?",
             name: "rolename"
         }
         
