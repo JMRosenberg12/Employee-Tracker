@@ -120,7 +120,7 @@ function addEmployee(){
             {
         
                 message: "What is your name?",
-                name: "departmentname"
+                name: "employeename"
             }
             
             
@@ -171,7 +171,7 @@ function addRole(){
         {
     
             message: "What is your name?",
-            name: "departmentname"
+            name: "rolename"
         }
         
         
