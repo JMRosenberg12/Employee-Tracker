@@ -108,7 +108,7 @@ function viewEmployees(){
     var query = "SELECT * FROM employee";
     connection.query(query, function(err, res) {
         if (err) throw err;
-        console.table(res);
+        console.log(res);
         starter();
     })
 };
@@ -132,12 +132,13 @@ function addEmployee(){
         ])
         .then(function(answers){
             console.log(answers)
+            var query = `INSERT INTO employee(first_name, last_name) VALUES(?, ?)`;
+            connection.query(query, [answers.employeefirstname, answers.employeelastname], function(err, res) {
+                if (err) throw err;
+                console.log(res);
+                starter();
         })
-    var query = "SELECT * FROM employee";
-    connection.query(query, function(err, res) {
-        if (err) throw err;
-        console.table(res);
-        starter();
+   
     });
 }
 function addDepartment(){
@@ -157,12 +158,14 @@ function addDepartment(){
         ])
         .then(function(answers){
             console.log(answers)
+            var query = `INSERT INTO department(name) 
+            VALUES(?)`;
+            connection.query(query, answers.departmentname, function(err, res) {
+                if (err) throw err;
+                console.log(res);
+                starter();
         })
-        var query = "SELECT * FROM department";
-    connection.query(query, function(err, res) {
-        if (err) throw err;
-        console.table(res);
-        starter(); 
+        
          
     });
 }
@@ -176,22 +179,27 @@ function addRole(){
         
         {
     
-            message: "What is your role?",
-            name: "rolename"
+            message: "What is your title?",
+            name: "roletitle"
         },
+        {
+            message: "what is your salary?",
+            name: "rolesalary"
+        }
         
         
         
     ])
     .then(function(answers){
         console.log(answers)
+        var query = "INSERT INTO role(title, salary) values(?, ?)";
+        connection.query(query, [answers.roletitle, answers.rolesalary], function(err, res) {
+            if (err) throw err;
+            console.table(res);
+            starter(); 
     })
    
-    var query = "SELECT * FROM role";
-connection.query(query, function(err, res) {
-    if (err) throw err;
-    console.table(res);
-    starter(); 
+  
 });
 }
     
