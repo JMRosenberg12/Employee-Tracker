@@ -113,9 +113,38 @@ function viewEmployees(){
     })
 };
 
-function addEmployee(){};
+function addEmployee(){
+    var query = "SELECT * FROM employee";
+    connection.query(query, function(err, res) {
+        if (err) throw err;
+        console.table(res);
+        starter();
+    });
+}
+function addDepartment(){
 
-function addDepartment(){};
+        
+        inquirer
+        .prompt([
+            
+            {
+        
+                message: "What is your name?",
+                name: "departmentname"
+            }
+            
+            
+        ])
+        .then(function(answers){
+            console.log(answers)
+        })
+         
+
+         
+
+};
+
+
 
 function addRole(){};
 
