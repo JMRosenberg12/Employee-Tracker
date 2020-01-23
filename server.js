@@ -215,17 +215,20 @@ function updateEmployeeRole(){
         {
             type: "input",
             message: "which employee needs to be updated?",
-            name: "employee"
+            name: ["employeefirstname", "employeelastname"]
 
         }
 
 
 
     ])
+    .then(function(answers){
+        console.log(answers)
     var query ="INSERT INTO employee(first_name, last_name) VALUES(?, ?)";
     connection.query(query, [answers.employeefirstname, employeelastname], function (err, res) {
       if (err) throw err;
       console.table(res)
+    })
 
 });
 
