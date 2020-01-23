@@ -213,12 +213,7 @@ function updateEmployeeRole(){
             name: "employee",
             type: "input",
             message:
-              "Which employee's role would you like to update? (Please enter the employee ID)"
-          },
-          {
-            name: "role",
-            type: "input",
-            message: "What is the employee's new role? (Please enter the role ID)"
+              "Which employee would you like to update? (Please enter the employee ID)"
           }
         ])
         .then(function(answer) {
