@@ -208,8 +208,8 @@ function addRole(){
 
 function updateEmployeeRole(){
   // update the employee role
-  var query ="UPDATE employee(first_name, last_name) VALUES(?, ?)";
-  connection.query(query, [answers.employeefirstname, answers.employeelastname], function (err, res) {
+  var query ="INSERT INTO employee(first_name, last_name) VALUES(?, ?)";
+  connection.query(query, [employeefirstname, employeelastname], function (err, res) {
     if (err) throw err;
     console.table(res)
     (
