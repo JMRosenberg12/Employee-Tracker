@@ -195,7 +195,7 @@ function addRole(){
         var query = "INSERT INTO role(title, salary) values(?, ?)";
         connection.query(query, [answers.roletitle, answers.rolesalary], function(err, res) {
             if (err) throw err;
-            console.table(res);
+            console.log(res);
             starter(); 
     })
    
@@ -206,4 +206,30 @@ function addRole(){
 
 //__________________________________________________________
 
-function updateEmployeeRole(){};
+function updateEmployeeRole(){
+    inquirer
+    .prompt([
+            
+        {
+    
+            message: "What is your first name?",
+            name: "employeefirstname"
+        },
+        {
+            message: "What is your last name?",
+            name:"employeelastname"
+        }
+
+        
+        
+    ])
+    .then(function(answers){
+        console.log(answers)
+        var query = `INSERT INTO employee(first_name, last_name) VALUES(?, ?)`;
+        connection.query(query, [answers.employeefirstname, answers.employeelastname], function(err, res) {
+            if (err) throw err;
+            console.log(res);
+            starter();
+    })
+});
+}
