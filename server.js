@@ -208,7 +208,8 @@ function addRole(){
 
 function updateEmployeeRole(){
   // update the employee role
-  connection.query("SELECT first_name, last_name FROM employee", function (err, res) {
+  var query("UPDATE employee(first_name, last_name) VALUES(?, ?)";
+  connection.query(query, [answers.employeefirstname, answers.employeelastname], function (err, res) {
     if (err) throw err;
     console.table(res)
     (
