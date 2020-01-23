@@ -209,7 +209,7 @@ function addRole(){
 function updateEmployeeRole(){
   // update the employee role
   var query ="INSERT INTO employee(first_name, last_name) VALUES(?, ?)";
-  connection.query(query, [employeefirstname, employeelastname], function (err, res) {
+  connection.query(query, [answers.employeefirstname, employeelastname], function (err, res) {
     if (err) throw err;
     console.table(res)
     (
