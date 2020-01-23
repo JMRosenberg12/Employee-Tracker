@@ -209,27 +209,31 @@ function addRole(){
 function updateEmployeeRole(){
     inquirer
     .prompt([
-            
         {
-    
-            message: "What is your first name?",
-            name: "employeefirstname"
-        },
-        {
-            message: "What is your last name?",
-            name:"employeelastname"
-        }
-
-        
-        
-    ])
-    .then(function(answers){
-        console.log(answers)
-        var query = `INSERT INTO employee(first_name, last_name) VALUES(?, ?)`;
-        connection.query(query, [answers.employeefirstname, answers.employeelastname], function(err, res) {
-            if (err) throw err;
-            console.log(res);
-            starter();
-    })
-});
-}
+            name: "employee",
+            type: "input",
+            message:
+              "Which employee's role would you like to update? (Please enter the employee ID)"
+          },
+          {
+            name: "role",
+            type: "input",
+            message: "What is the employee's new role? (Please enter the role ID)"
+          }
+        ])
+        .then(function(answer) {
+          var.query(
+            "UPDATE (employee.first_name, employee.last_name?",
+            [
+              {
+                answers: employeefirstname, employeelastname
+              },
+            ],
+            function(err) {
+              if (err) throw err;
+              console.log("The employee's role has been updated successfully!");
+              starter();
+            }
+          );
+        });
+    }
