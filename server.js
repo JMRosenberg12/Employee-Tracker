@@ -207,31 +207,23 @@ function addRole(){
 //__________________________________________________________
 
 function updateEmployeeRole(){
-    inquirer
-    .prompt([
-      {
-        type: "input",
-        name: "first_name",
-        message: "Enter first name:"
-      },
-      {
-        type: "input",
-        name: "last_name",
-        message: "Enter last name:"
-      }
-    ])
-    .then(({'answers.employeefirstname', 'answers.employeelastname'}) => {
-      connection.query("UPDATE employee(first_name, last_name) VALUES(?, ?)",
-      [
+  // update the employee role
+  connection.query("SELECT first_name, last_name FROM employee", function (err, res) {
+    if (err) throw err;
+    console.table(res)
+    (
+
         {
-          first_name: first_name,
-          last_name: last_name, 
+            type: "input",
+            message: "which employee needs to be updated?",
+            name: "employee"
+
         },
-        (err, data) => {
-            if (err) throw err;
-            console.log("Updated employee successfully");
-            starter();
-          }
-        );
-      });
-  }
+
+
+    )
+
+});
+
+}
+
